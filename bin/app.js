@@ -1,29 +1,54 @@
 #!/usr/bin/env node
 
+/**
+ * Inquirer module
+ * @module inquirer
+ */
 const inquirer = require('inquirer');
 
-const SELVAKORPI_CODE = {
+/**
+ * Key/Value pairs for the SELVA KORPI code
+ * 
+ * @constant
+ * @default
+ */
+const SELVAKORPI_CODE = Object.freeze({
+    a: "i",
+    á: "i",
+    e: "o",
+    é: "o",
+    i: "a",
+    í: "a",
+    k: "s",
+    l: "r",
+    o: "e",
+    ó: "e",
+    p: "v",
+    r: "l",
+    s: "k",
+    ú: "u",
+    v: "p",
+  });
 
-    's': 'k',
-    'e': 'o',
-    'é': 'o',
-    'l': 'r',
-    'v': 'p',
-    'a': 'i',
-    'á': 'i',
-    'k': 's',
-    'o': 'e',
-    'ó': 'e',
-    'r': 'l',
-    'p': 'v',
-    'i': 'a',
-    'í': 'a',
-    'ú': 'u'
-}
-
+/**
+ * @typedef {keyof typeof SELVAKORPI_CODE} SelvaKorpiLetter
+ */
+/**
+ * Array containing the characters belonging to SELVA KORPI
+ * 
+ * @constant
+ * @type SelvaKorpiLetter
+ * @default
+ */
 const LETTERS_TO_CODIFY = Object.keys(SELVAKORPI_CODE);
 
-function applySelvakorpi(letter){
+/**
+ * Applies SELVA KORPI to the message
+ * 
+ * @param {@string} letter - individual letters from the message typed by the user
+ * @returns {string}
+ */
+function applySelvaKorpi(letter){
 
     if (LETTERS_TO_CODIFY.includes(letter)){
         return SELVAKORPI_CODE[letter];
@@ -32,17 +57,31 @@ function applySelvakorpi(letter){
     }
 }
 
-function receiveMessage(data){
+/** 
+ * @param {string} message - message typed by the user on the console
+ * @returns {string}
+ */
+function applySelvaKorpiToMessage(message){
 
-        console.log(`Tu mensaje en selvakorpi es: ${data
-            .toLowerCase()
-            .split('')
-            .map(element => applySelvakorpi(element))
-            .join('')}`
-           );
-        process.exit();
+    return message.toLowerCase()
+                .split('')
+                .map(element => applySelvaKorpi(element))
+                .join('')
 }
 
+/**
+ * @param {string} processedMessage - message after SELVA KORPI has been applied
+ * @returns {string}
+ */
+function logMessage(processedMessage){
+
+        console.log(`Tu mensaje en selvakorpi es: ${processedMessage}`);
+        
+}
+
+/**
+ * Self-contained inquirer module
+ */
 const prompt = inquirer.createPromptModule();
 prompt([
     {
@@ -51,6 +90,11 @@ prompt([
         message: "'¿Qué mensaje le gustaría codificar/decodificar?'"
     }
 ]).then((answer) => {
-    receiveMessage(answer.question);
+
+    const codifiedMessage = applySelvaKorpiToMessage(answer.question)
+
+    logMessage(codifiedMessage);
+
+    process.exit();
 });
 
