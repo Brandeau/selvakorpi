@@ -1,0 +1,23 @@
+{
+  "name": "selvakorpi",
+  "version": "1.0.0",
+  "description": "CLI for codifying text into selva korpi",
+  "main": "bin/app.js",
+  "bin": {
+    "selvakorpi": "./bin/app.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "selva",
+    "korpi",
+    "code",
+    "cli"
+  ],
+  "author": "Brandeau",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^8.2.5"
+  }
+}
